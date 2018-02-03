@@ -1,13 +1,56 @@
 <?php
-if(!isset($_FILES)){
-    $error = 0;
-    $upload_dir = "uploads/";
-    $fileName = $_FILES['imageToUpload']['name'];
-    $uploaded_file = $upload_dir.$fileName;
-    if(move_uploaded_file($_FILES['imageToUpload']['tmp_name'],$uploaded_file)){
-//insert file information into db table
-        //$mysql_insert = "INSERT INTO uploads (file_name, upload_time)VALUES('".$fileName."','".date("Y-m-d H:i:s")."')";
-        //mysqli_query($conn, $mysql_insert) or die("database error:". mysqli_error($conn));
+if(isset($_POST['submit'])) {
+
+    $files = glob('uploads/*.*');
+    foreach($files as $file) {
+        if(is_file($file)) {
+            unlink($file);
+        }
     }
+
+    $url = "www.kieranbrown.me/facebook/uploads/";
+    $error = 0;
+    print_r($FILES['imageToUpload']);
+    $upload_dir = getcwd() . "/uploads/";
+    $fileName = $_FILES['imageToUpload']['name'];
+    $uploaded_file = $upload_dir . $fileName;
+    $url .= $fileName;
+
+    if(file_exists($uploaded_file)) {
+        $error = 1;
+    }
+
+    if($_FILE["imageToUpload"]["size"] > 2500000) {
+        $error = 1;
+    }
+
+    if (move_uploaded_file($_FILES['imageToUpload']['tmp_name'], $uploaded_file) && $error == 0) {
+        echo "<script>console.log('File uploaded')</script>";
+        ?>
+        <html>
+        <head>
+            <script src="js/jquery-3.3.1.min.js"></script>
+            <script>
+                $.ajax({
+                    type: "GET",
+                    url: "extractTags.py",
+                    data: {
+                        url: "<?= $url ?>"
+                    },
+                    success: function(output) {
+                        //TODO: ADD output here for caption/hashtags
+                    }
+                });
+            </script>
+        </head>
+        </html>
+        <?php
+    } else {
+        echo "<script>console.log('File not uploaded')</script>";
+    }
+    ?>
+<?php
+} else {
+    echo "error";
 }
 ?>
