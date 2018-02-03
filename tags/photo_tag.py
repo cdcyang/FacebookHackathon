@@ -99,17 +99,15 @@ class PhotoTag(object):
     # endregion
 
 
-def main():
-    photo = 'ferris-wheel.jpg'
-    json_generator = photo_json.PhotoJson(photo)
+def get_tags(filename):
+    json_generator = photo_json.PhotoJson(filename)
     json_data = json_generator.generate()
     photo_tags = PhotoTag(json_data, 10)
     result = photo_tags.process()
     print(result)
+    return result
 
 
-if __name__ == '__main__':
-    main()
     
 
 
