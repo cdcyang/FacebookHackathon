@@ -3,7 +3,7 @@ import json
 
 class PhotoTags(object):
 
-    def __init__(self, input_json, num_result=5):
+    def __init__(self, input_json, num_result):
         self.input_json = input_json
         self.num_result = num_result
         self.result_tags = []
@@ -11,7 +11,7 @@ class PhotoTags(object):
     def process(self):
         photo_tags = self.load_result_tag()
         trending_tags = self.load_instgram_trending_tags()
-        # self.result_tags = self.compare_input_trending_tags(photo_tags, trending_tags)
+        self.result_tags = self.rank_top_tags(photo_tags, trending_tags)
         return self.result_tags
 
     def compare_input_trending_tags(self, input_tags, trending_tags):
@@ -22,11 +22,24 @@ class PhotoTags(object):
         return show_on_website
 
     def rank_top_tags(self, input_tags, trending_tags):
-        top_result = self.compare_input_trending_tags(input_tags, trending_tags)
+        match_tags = self.compare_input_trending_tags(input_tags, trending_tags)
 
-        for i in self.num_result:
-            self.result_tags.append(top_result[i])
-        self.result = top_result
+        top_result = []
+        for i in range(len(match_tags)):
+            top_result.append(match_tags[i])
+
+        if len(top_result) < self.num_result:
+            missing_num = self.num_result - len(top_result)
+            additional_tags = self.fill_top_result(match_tags, input_tags, missing_num)
+            top_result.extend([(tag, 9999)for tag in additional_tags])
+        return top_result[:self.num_result]
+
+
+    def fill_top_result(self, match_tags, input_tags, missing_num):
+        for tags in match_tags:
+            if tags in input_tags:
+                input_tags.remove(tags)
+        return input_tags[:missing_num]
 
     #region Get Instagram trending tags
     def load_instagram_tags_dummy(self):
@@ -68,7 +81,7 @@ class PhotoTags(object):
 
 
 def main():
-    photo_tags = PhotoTags("sample-data.json")
+    photo_tags = PhotoTags("sample-data.json", 5)
     result = photo_tags.process()
     print(result)
 
