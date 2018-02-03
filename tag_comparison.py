@@ -3,14 +3,15 @@ import json
 
 class PhotoTags(object):
 
-    def __init__(self, input_json):
+    def __init__(self, input_json, num_result=5):
         self.input_json = input_json
-        self.result_tags = ""
+        self.num_result = num_result
+        self.result_tags = []
 
     def process(self):
         photo_tags = self.load_result_tag()
         trending_tags = self.load_instgram_trending_tags()
-        self.result_tags = self.compare_input_trending_tags(photo_tags, trending_tags)
+        # self.result_tags = self.compare_input_trending_tags(photo_tags, trending_tags)
         return self.result_tags
 
     def compare_input_trending_tags(self, input_tags, trending_tags):
@@ -20,6 +21,12 @@ class PhotoTags(object):
                 show_on_website.append((tag, trending_tags[tag]))
         return show_on_website
 
+    def rank_top_tags(self, input_tags, trending_tags):
+        top_result = self.compare_input_trending_tags(input_tags, trending_tags)
+
+        for i in self.num_result:
+            self.result_tags.append(top_result[i])
+        self.result = top_result
 
     #region Get Instagram trending tags
     def load_instagram_tags_dummy(self):
@@ -61,7 +68,7 @@ class PhotoTags(object):
 
 
 def main():
-    photo_tags = PhotoTags("sample2.json")
+    photo_tags = PhotoTags("sample-data.json")
     result = photo_tags.process()
     print(result)
 
