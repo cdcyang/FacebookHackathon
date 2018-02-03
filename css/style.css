@@ -3,6 +3,11 @@
     src: url("seguisb.ttf");
 }
 
+@font-face {
+    font-family: "Billabong";
+    src: url("Billabong.ttf");
+}
+
 .upload-drop-zone {
     height: 200px;
     border-width: 2px;
