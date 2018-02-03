@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Segoe UI semibold";
+    src: url("seguisb.ttf");
+}
+/*
 .upload-drop-zone {
     height: 200px;
     border-width: 2px;
@@ -10,4 +15,10 @@
     border-color: #ccc;
     line-height: 200px;
     text-align: center
+}
+*/
+
+.caption-title {
+    font-family: 'Segoe UI semibold';
+    font-weight: bold;
 }
