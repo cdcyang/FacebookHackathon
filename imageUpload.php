@@ -11,7 +11,7 @@ if(isset($_POST['submit'])) {
     $url = "www.kieranbrown.me/facebook/uploads/";
     $error = 0;
     //print_r($FILES['imageToUpload']);
-    $upload_dir = getcwd() . "/uploads/";
+    $upload_dir = getcwd() . "\uploads\";
     $fileName = $_FILES['imageToUpload']['name'];
     $uploaded_file = $upload_dir . $fileName;
     $pythonDirectory = "/uploads/".$fileName;
@@ -33,9 +33,9 @@ if(isset($_POST['submit'])) {
             <script>
                 $.ajax({
                     type: "GET",
-                    url: "extractTags.py",
+                    url: "http://0.0.0.0:5000/",
                     data: {
-                        url: "<?= $pythonDirectory ?>"
+                        file: "<?= $pythonDirectory ?>"
                     },
                     success: function(output) {
                         //TODO: ADD output here for caption/hashtags
