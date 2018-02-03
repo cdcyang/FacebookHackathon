@@ -1,1 +1,38 @@
-{'responses': [{'labelAnnotations': [{'score': 0.9690425, 'mid': '/m/017rnr', 'description': 'amusement ride', 'topicality': 0.9690425}, {'score': 0.9567201, 'mid': '/m/010jjr', 'description': 'amusement park', 'topicality': 0.9567201}, {'score': 0.9481193, 'mid': '/m/02jf28', 'description': 'fair', 'topicality': 0.9481193}, {'score': 0.934783, 'mid': '/m/05_5t0l', 'description': 'landmark', 'topicality': 0.934783}, {'score': 0.92681414, 'mid': '/m/0pgl9', 'description': 'tourist attraction', 'topicality': 0.92681414}]}]}
+{
+  "responses": [
+    {
+      "labelAnnotations": [
+        {
+          "score": 0.9690425,
+          "mid": "/m/017rnr",
+          "description": "amusement ride",
+          "topicality": 0.9690425
+        },
+        {
+          "score": 0.9567201,
+          "mid": "/m/010jjr",
+          "description": "amusement park",
+          "topicality": 0.9567201
+        },
+        {
+          "score": 0.9481193,
+          "mid": "/m/02jf28",
+          "description": "fair",
+          "topicality": 0.9481193
+        },
+        {
+          "score": 0.934783,
+          "mid": "/m/05_5t0l",
+          "description": "landmark",
+          "topicality": 0.934783
+        },
+        {
+          "score": 0.92681414,
+          "mid": "/m/0pgl9",
+          "description": "tourist attraction",
+          "topicality": 0.92681414
+        }
+      ]
+    }
+  ]
+}

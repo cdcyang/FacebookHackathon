@@ -1,9 +1,28 @@
-
-import os
 import json
 
 
-def load_tags(file):
+def load_tag_from_vision_json(input_json):
+    photo_tags = []
+
+    with open(input_json, 'r') as json_data:
+        data = json.load(json_data)
+        labels = data['responses'][0]['labelAnnotations']
+        for label in labels:
+            description = get_description(label, 'description')
+            if description: photo_tags.append(description)
+    return photo_tags
+
+
+def get_description(label, loc='description'):
+
+    if loc not in label: return ""
+
+    raw_description = label[loc]
+    formatted_description = raw_description.replace(" ", "")
+    return formatted_description
+
+
+def load_image_json_dummy(file):
 
     photo_tags = []
 
@@ -42,13 +61,13 @@ def compare_trending(input_tags):
     return show_on_website
 
 def main():
-    example = load_tags('example_tags')
+    example = load_image_json_dummy('example_tags')
     a = compare_trending(example)
     return a
 
 
 if __name__ == '__main__':
-    print(main())
+    print(load_tag_from_vision_json('sample-data.json'))
     
 
 
