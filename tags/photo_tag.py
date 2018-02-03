@@ -1,4 +1,6 @@
 import photo_json
+import random
+import json
 
 class PhotoTag(object):
     def __init__(self, input_json, num_result):
@@ -10,41 +12,63 @@ class PhotoTag(object):
         photo_tags = self.load_result_tag()
         trending_tags = self.load_instgram_trending_tags()
         self.result_tags = self.rank_top_tags(photo_tags, trending_tags)
-        return self.result_tags
+
+        return json.dumps(self.result_tags)
 
     def compare_input_trending_tags(self, input_tags, trending_tags):
-        show_on_website =[]
+        matches =[]
         for tag in input_tags:
             if tag in trending_tags:
-                show_on_website.append((tag, trending_tags[tag]))
-        return show_on_website
+                tag_pair = dict()
+                tag_pair['hashtag'] = tag
+                tag_pair['rank'] = trending_tags[tag]
+                matches.append(tag_pair)
+        return matches
 
     def rank_top_tags(self, input_tags, trending_tags):
         match_tags = self.compare_input_trending_tags(input_tags, trending_tags)
-
-        top_result = []
-        for i in range(len(match_tags)):
-            top_result.append(match_tags[i])
+        top_result = match_tags[:]
 
         if len(top_result) < self.num_result:
-            missing_num = self.num_result - len(top_result)
-            additional_tags = self.fill_top_result(match_tags, input_tags, missing_num)
-            top_result.extend([(tag, 9999)for tag in additional_tags])
-        return top_result[:self.num_result]
+            top_result.extend(self.fill_tags(top_result, input_tags))
 
+        return top_result
 
-    def fill_top_result(self, match_tags, input_tags, missing_num):
-        for tags in match_tags:
-            if tags in input_tags:
-                input_tags.remove(tags)
-        return input_tags[:missing_num]
+    def fill_tags(self, match_tags, input_tags):
+        unmatched_tags = self.get_unused_tags(match_tags, input_tags)
+        rand_set = set()
+        unused_tag = []
+
+        missing = len(unmatched_tags)
+
+        while missing:
+            index = random.randint(0, len(unmatched_tags) -1)
+            if index not in rand_set:
+                selected_tag = unmatched_tags[index]
+                temp = dict()
+                temp['hashtah'] = selected_tag
+                temp['rank'] = 9999
+                unused_tag.append(temp)
+                rand_set.add(index)
+                missing -= 1
+            else:
+                continue
+        return unused_tag
+
+    def get_unused_tags(self, match_tags, input_tags):
+        unmatched = input_tags[:]
+        for tag_pair in match_tags:
+            tag = tag_pair['hashtag']
+            if tag in unmatched:
+                unmatched.remove(tag)
+        return unmatched
 
     #region Get Instagram trending tags
     def load_instagram_tags_dummy(self):
         popular_tags = dict()
         i =1
-        with open('dummy_tags', 'r') as insta_tag:
-            for line in insta_tag:
+        with open('dummy_tags', 'r') as trending:
+            for line in trending:
                 tag = line.strip()[1:]
                 popular_tags[tag] = i
                 i += 1
@@ -58,9 +82,6 @@ class PhotoTag(object):
     #region  Generate photo tags from result json
     def load_result_tag(self):
         photo_tags = []
-
-        # with open(self.input_json, 'r') as json_data:
-        #     data = json.load(json_data)
         data = self.input_json
         labels = data['responses'][0]['labelAnnotations']
         for label in labels:
