@@ -10,11 +10,11 @@ if(isset($_POST['submit'])) {
 
     $url = "www.kieranbrown.me/facebook/uploads/";
     $error = 0;
-    print_r($FILES['imageToUpload']);
+    //print_r($FILES['imageToUpload']);
     $upload_dir = getcwd() . "/uploads/";
     $fileName = $_FILES['imageToUpload']['name'];
     $uploaded_file = $upload_dir . $fileName;
-    $url .= $fileName;
+    $pythonDirectory = "/uploads/".$fileName;
 
     if(file_exists($uploaded_file)) {
         $error = 1;
@@ -35,7 +35,7 @@ if(isset($_POST['submit'])) {
                     type: "GET",
                     url: "extractTags.py",
                     data: {
-                        url: "<?= $url ?>"
+                        url: "<?= $pythonDirectory ?>"
                     },
                     success: function(output) {
                         //TODO: ADD output here for caption/hashtags
