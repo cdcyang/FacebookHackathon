@@ -46,7 +46,7 @@ class PhotoTag(object):
             if index not in rand_set:
                 selected_tag = unmatched_tags[index]
                 temp = dict()
-                temp['hashtah'] = selected_tag
+                temp['hashtag'] = selected_tag
                 temp['rank'] = 9999
                 unused_tag.append(temp)
                 rand_set.add(index)
