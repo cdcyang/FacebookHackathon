@@ -1,73 +1,73 @@
 import json
 
 
-def load_tag_from_vision_json(input_json):
-    photo_tags = []
+class PhotoTags(object):
 
-    with open(input_json, 'r') as json_data:
-        data = json.load(json_data)
-        labels = data['responses'][0]['labelAnnotations']
-        for label in labels:
-            description = get_description(label, 'description')
-            if description: photo_tags.append(description)
-    return photo_tags
+    def __init__(self, input_json):
+        self.input_json = input_json
+        self.result_tags = ""
 
+    def process(self):
+        photo_tags = self.load_result_tag()
+        trending_tags = self.load_instgram_trending_tags()
+        self.result_tags = self.compare_input_trending_tags(photo_tags, trending_tags)
+        return self.result_tags
 
-def get_description(label, loc='description'):
-
-    if loc not in label: return ""
-
-    raw_description = label[loc]
-    formatted_description = raw_description.replace(" ", "")
-    return formatted_description
-
-
-def load_image_json_dummy(file):
-
-    photo_tags = []
-
-    with open(file, 'r') as tags_file:
-        for line in tags_file:
-            photo_tags.append(line.strip())
-        
-    return photo_tags
-
-def load_instagram_tags():
-    pass
+    def compare_input_trending_tags(self, input_tags, trending_tags):
+        show_on_website =[]
+        for tag in input_tags:
+            if tag in trending_tags:
+                show_on_website.append((tag, trending_tags[tag]))
+        return show_on_website
 
 
-def load_instagram_tags_dummy():
+    #region Get Instagram trending tags
+    def load_instagram_tags_dummy(self):
+        popular_tags = dict()
+        i =1
+        with open('dummy_tags', 'r') as insta_tag:
+            for line in insta_tag:
+                tag = line.strip()[1:]
+                popular_tags[tag] = i
+                i += 1
+        return popular_tags
 
-    popular_tags = dict()
-    i =1
-    with open('dummy_tags', 'r') as insta_tag:
-        for line in insta_tag:
-            tag = line.strip()[1:]
-            popular_tags[tag] = i
-            i += 1
-    return popular_tags
-            
-def compare_trending(input_tags):
-    show_on_website =[]
+    def load_instgram_trending_tags(self):
+        return(self.load_instagram_tags_dummy())
 
-    instgram_tags = load_instagram_tags_dummy()
-    for tag in input_tags:
-        if tag in instgram_tags:
-            show_on_website.append((tag, instgram_tags[tag]))
+    # endregion
 
-    # if show_on_website:
-    #     return input_tags
+    #region  Generate photo tags from result json
+    def load_result_tag(self):
+        photo_tags = []
 
-    return show_on_website
+        with open(self.input_json, 'r') as json_data:
+            data = json.load(json_data)
+            labels = data['responses'][0]['labelAnnotations']
+            for label in labels:
+                description = self.__get_description(label, 'description')
+                if description: photo_tags.append(description)
+        return photo_tags
+
+    @staticmethod
+    def __get_description(label, loc='description'):
+        if loc not in label: return ""
+
+        raw_description = label[loc]
+        formatted_description = raw_description.replace(" ", "").lower()
+        return formatted_description
+
+    # endregion
+
 
 def main():
-    example = load_image_json_dummy('example_tags')
-    a = compare_trending(example)
-    return a
+    photo_tags = PhotoTags("sample2.json")
+    result = photo_tags.process()
+    print(result)
 
 
 if __name__ == '__main__':
-    print(load_tag_from_vision_json('sample-data.json'))
+    main()
     
 
 
