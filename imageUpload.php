@@ -11,7 +11,7 @@ if(isset($_POST['submit'])) {
     $url = "www.kieranbrown.me/facebook/uploads/";
     $error = 0;
     //print_r($FILES['imageToUpload']);
-    $upload_dir = getcwd() . "\uploads\";
+    $upload_dir = getcwd() . "\\uploads\\";
     $fileName = $_FILES['imageToUpload']['name'];
     $uploaded_file = $upload_dir . $fileName;
     $pythonDirectory = "/uploads/".$fileName;
@@ -33,7 +33,8 @@ if(isset($_POST['submit'])) {
             <script>
                 $.ajax({
                     type: "GET",
-                    url: "http://0.0.0.0:5000/",
+                    url: "http://127.0.0.1:5000/",
+                    crossOrigin: true,
                     data: {
                         file: "<?= $pythonDirectory ?>"
                     },
