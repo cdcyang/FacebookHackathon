@@ -1,8 +1,7 @@
-import json
+import photo_json_generator
 
 
 class PhotoTags(object):
-
     def __init__(self, input_json, num_result):
         self.input_json = input_json
         self.num_result = num_result
@@ -61,12 +60,13 @@ class PhotoTags(object):
     def load_result_tag(self):
         photo_tags = []
 
-        with open(self.input_json, 'r') as json_data:
-            data = json.load(json_data)
-            labels = data['responses'][0]['labelAnnotations']
-            for label in labels:
-                description = self.__get_description(label, 'description')
-                if description: photo_tags.append(description)
+        # with open(self.input_json, 'r') as json_data:
+        #     data = json.load(json_data)
+        data = self.input_json
+        labels = data['responses'][0]['labelAnnotations']
+        for label in labels:
+            description = self.__get_description(label, 'description')
+            if description: photo_tags.append(description)
         return photo_tags
 
     @staticmethod
@@ -76,12 +76,14 @@ class PhotoTags(object):
         raw_description = label[loc]
         formatted_description = raw_description.replace(" ", "").lower()
         return formatted_description
-
     # endregion
 
 
 def main():
-    photo_tags = PhotoTags("sample-data.json", 5)
+    photo = 'people.jpg'
+    json_generator = photo_json_generator.PhotoJson(photo)
+    json_data = json_generator.generate()
+    photo_tags = PhotoTags(json_data, 10)
     result = photo_tags.process()
     print(result)
 
