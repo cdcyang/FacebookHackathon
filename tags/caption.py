@@ -5,8 +5,8 @@ class Caption:
     def generate(self):
         caption = "I am "
         response = self.data["responses"][0]
+        people = list()
         if "faceAnnotations" in response:
-            people = list()
             emotions = {"joy": "happy", "sorrow": "sad", "anger": "angry", "surprise": "surprised"}
             for person in response["faceAnnotations"]:
                 for emotion in emotions.keys():
@@ -15,7 +15,7 @@ class Caption:
             tally = dict()
             common_emotion = ""
             max_count = 0
-            for emotion in emotions.keys():
+            for emotion in people:
                 if emotion in tally:
                     tally[emotion] += 1
                 else:
@@ -28,7 +28,14 @@ class Caption:
             common_emotion = emotions[common_emotion]
         else:
             common_emotion = "happy"
-        caption += " really " + common_emotion
+        if common_emotion == "happy":
+            caption += "really enjoying "
+            if len(people) > 1:
+                caption += "ourselves"
+            else:
+                caption += "myself"
+        else:
+            caption += "really " + common_emotion
         if "landmarkAnnotations" in response:
             places = list()
             for place in response["landmarkAnnotations"]:
