@@ -1,7 +1,7 @@
+import datetime as dt
+import json
 import photo_json
 import random
-import json
-import logging
 
 
 class PhotoTag(object):
@@ -11,19 +11,19 @@ class PhotoTag(object):
         self.result_tags = []
 
     def process(self):
-        print("Start processing tagging json.")
+        print(str(dt.datetime.now()) + " Start processing tagging json.")
         photo_tags = self.load_result_tag()
-        print("Completed loading image json")
+        print(str(dt.datetime.now()) + " Completed processing image json")
 
-        print("Start scrapping trending hashtags")
+        print(str(dt.datetime.now()) + " Start scrapping trending hashtags")
         trending_tags = self.load_instgram_trending_tags()
-        print("Completed scrapping trending hashtags")
+        print(str(dt.datetime.now()) + " Completed scrapping trending hashtags")
 
-        print("Start tag comparison")
+        print(str(dt.datetime.now()) + " Start tag comparison")
         self.result_tags = self.rank_top_tags(photo_tags, trending_tags)
-        print("Completed tag comparison")
+        print(str(dt.datetime.now()) + " Completed tag comparison")
 
-        print("Returning comparison result")
+        print(str(dt.datetime.now()) + " Returning comparison result")
         return json.dumps(self.result_tags)
 
     def compare_input_trending_tags(self, input_tags, trending_tags):
@@ -39,7 +39,7 @@ class PhotoTag(object):
     def rank_top_tags(self, input_tags, trending_tags):
         match_tags = self.compare_input_trending_tags(input_tags, trending_tags)
         top_result = match_tags[:]
-        print("Find " + str(len(top_result)) + " matching tags from the image description")
+        print(str(dt.datetime.now()) + " Find " + str(len(top_result)) + " matching tags from the image description")
 
         if len(top_result) < self.num_result:
             top_result.extend(self.fill_tags(top_result, input_tags))
@@ -116,6 +116,5 @@ def get_tags(filename):
     json_data = json_generator.generate()
     photo_tags = PhotoTag(json_data, 10)
     result = photo_tags.process()
-    print("The result json is " + str(result))
+    print(str(dt.datetime.now()) + " The result json is " + str(result))
     return result
-
