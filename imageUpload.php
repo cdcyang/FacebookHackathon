@@ -55,6 +55,11 @@ if(isset($_POST['submit'])) {
 
                             console.log("caption: "  + caption)
                             console.log("hashtags: " + hashtagOutput)
+
+                            $(".output").load("output.html", function() {
+                                $(".caption").html(caption)
+                                $(".hashtags").html(hashtagOutput)
+                            })
                         }
                     });
                 }
@@ -63,6 +68,11 @@ if(isset($_POST['submit'])) {
 
             </script>
         </head>
+        <body>
+        <div class="output">
+
+        </div>
+        </body>
         </html>
         <?php
     } else {
