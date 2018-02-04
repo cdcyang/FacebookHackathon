@@ -142,6 +142,3 @@ def get_tags(filename):
     result = photo_tags.process()
     print(str(dt.datetime.now()) + " The result json is " + str(result))
     return result
-
-
-get_tags('big_ben.jpg')
