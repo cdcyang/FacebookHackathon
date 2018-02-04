@@ -2,16 +2,13 @@ import datetime as dt
 import base64
 import json
 import os
-import time
 
 
 class PhotoJson(object):
-
     def __init__(self, img_name):
         self.img = img_name
 
     def generate(self):
-        # start = time.time()
         print(str(dt.datetime.now()) + " Start generate json for input image")
         request_json = self.generate_request_json()
 
@@ -23,8 +20,6 @@ class PhotoJson(object):
         curl_command += " --data-binary @request.json"
         raw_res = os.popen(curl_command).read()
         res = json.loads(raw_res)
-        # end = time.time()
-        # print("The time taken to fetch labels is: ", end - start, file=sys.stdout)
         with open('data.json', 'a') as cache_file:
             for c in raw_res:
                 if c not in " \n":
@@ -34,7 +29,6 @@ class PhotoJson(object):
         return res
 
     def generate_request_json(self):
-
         request_object = {}
         request_object["requests"] = []
         requests = request_object["requests"]
@@ -50,7 +44,6 @@ class PhotoJson(object):
         first_request["features"].append({"type": "LOGO_DETECTION"})
 
         print(str(dt.datetime.now()) + "Generated request json")
-        
         return request_object
 
     def encode_image_base64(self):
