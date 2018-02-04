@@ -44,7 +44,7 @@ if(isset($_POST['submit'])) {
                             var hashtags = new Array(10);
 
                             caption = output['caption'];
-                            for(int i = 0; i < output['hashtag'].length; i++) {
+                            for(var i = 0; i < output['hashtag'].length; i++) {
                                 hashtags[i] = output['hashtag'][i];
                             }
 
@@ -53,7 +53,7 @@ if(isset($_POST['submit'])) {
                                 hashtagOutput += val;
                             })
 
-                            console.log("caption":  + caption)
+                            console.log("caption: "  + caption)
                             console.log("hashtags: " + hashtagOutput)
                         }
                     });
