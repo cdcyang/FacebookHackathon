@@ -31,17 +31,36 @@ if(isset($_POST['submit'])) {
         <head>
             <script src="js/jquery-3.3.1.min.js"></script>
             <script>
-                $.ajax({
-                    type: "GET",
-                    url: "http://127.0.0.1:5000/",
-                    crossOrigin: true,
-                    data: {
-                        file: "<?= $pythonDirectory ?>"
-                    },
-                    success: function(output) {
-                        //TODO: ADD output here for caption/hashtags
-                    }
-                });
+                function getAjax() {
+                    $.ajax({
+                        type: "GET",
+                        url: "http://127.0.0.1:5000/",
+                        crossOrigin: true,
+                        data: {
+                            file: "<?= $pythonDirectory ?>"
+                        },
+                        success: function (output) {
+                            return output;
+                        }
+                    });
+                }
+
+                var output = getAjax();
+                var caption;
+                var hashtags = new Array(10);
+
+                caption = output['caption'];
+                for(int i = 0; i < output['hashtag'].length; i++) {
+                    hashtags[i] = output['hashtag'][i];
+                }
+
+                var hashtagOutput = "";
+                hashtags.forEach(function(val) {
+                    hashtagOutput += val;
+                })
+
+                console.log("caption":  + caption)
+                console.log("hashtags: " + hashtagOutput)
             </script>
         </head>
         </html>
