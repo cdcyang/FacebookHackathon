@@ -1,3 +1,4 @@
+import datetime as dt
 import base64
 import json
 import os
@@ -11,6 +12,7 @@ class PhotoJson(object):
 
     def generate(self):
         # start = time.time()
+        print(str(dt.datetime.now()) + " Start generate json for image " + str(self.img) + '.')
         request_json = self.generate_request_json()
 
         with open('request.json', 'w') as request_file:
@@ -27,6 +29,9 @@ class PhotoJson(object):
             for c in raw_res:
                 if c not in " \n":
                     cache_file.write(c)
+
+        print(str(dt.datetime.now()) + " Finished generating json for image " + str(self.img) + '.')
+
         return res
 
     def generate_request_json(self):
