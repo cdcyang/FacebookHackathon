@@ -12,7 +12,7 @@ class PhotoJson(object):
 
     def generate(self):
         # start = time.time()
-        print(str(dt.datetime.now()) + " Start generate json for image " + str(self.img) + '.')
+        print(str(dt.datetime.now()) + " Start generate json for input image")
         request_json = self.generate_request_json()
 
         with open('request.json', 'w') as request_file:
@@ -31,10 +31,10 @@ class PhotoJson(object):
                     cache_file.write(c)
 
         print(str(dt.datetime.now()) + " Finished generating json for image " + str(self.img) + '.')
-
         return res
 
     def generate_request_json(self):
+
         request_object = {}
         request_object["requests"] = []
         requests = request_object["requests"]
@@ -48,6 +48,9 @@ class PhotoJson(object):
         first_request["features"].append({"type": "LANDMARK_DETECTION"})
         first_request["features"].append({"type": "TEXT_DETECTION"})
         first_request["features"].append({"type": "LOGO_DETECTION"})
+
+        print(str(dt.datetime.now()) + "Generated request json")
+        
         return request_object
 
     def encode_image_base64(self):

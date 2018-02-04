@@ -13,7 +13,7 @@ class PhotoTag(object):
     def process(self):
         print(str(dt.datetime.now()) + " Start processing tagging json.")
         photo_tags = self.load_result_tag()
-        print(str(dt.datetime.now()) + " Completed loading image json")
+        print(str(dt.datetime.now()) + " Completed processing image json")
 
         print(str(dt.datetime.now()) + " Start scrapping trending hashtags")
         trending_tags = self.load_instgram_trending_tags()
