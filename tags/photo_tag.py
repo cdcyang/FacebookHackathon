@@ -2,7 +2,8 @@ import datetime as dt
 import json
 import photo_json
 import random
-from tag_scraper import scrape_tags
+from lxml import html
+import requests
 
 
 class PhotoTag(object):
@@ -99,11 +100,27 @@ class PhotoTag(object):
                 i += 1
         return popular_tags
 
-    def load_instagram_tags_scraper(self):
-        return(self.scrape_tags())
+    def load_instagram_tags(self):
+        page = requests.get('http://www.tagblender.net/')
+        tree = html.fromstring(page.content)
+
+        # Scraped tags
+        alltags = tree.xpath('//div[@class="tagBox"]/text()')
+        list0 = list()
+
+        # Add tags to a list
+        for x in range(0,len(alltags)):
+            list0 = list0 + alltags[x].split();
+
+        # Convert to dictionary
+        popular_tags = dict()
+        for x in range(0,len(list0)):
+            new_tag = list0[x].replace('#', '').lower()
+            popular_tags[new_tag] = x
+        return popular_tags
 
     def load_instgram_trending_tags(self):
-        return (self.load_instagram_tags_dummy())
+        return (self.load_instagram_tags())
 
     # endregion
 

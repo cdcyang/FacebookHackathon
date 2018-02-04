@@ -17,6 +17,7 @@ def scrape_tags():
     # Convert to dictionary
     popular_tags = dict()
     for x in range(0,len(list0)):
-        popular_tags[list0[x]] = x
+        new_tag = list0[x].replace('#', '').lower()
+        popular_tags[new_tag] = x
     print(popular_tags)
     return popular_tags
