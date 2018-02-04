@@ -120,7 +120,7 @@ class PhotoTag(object):
         return popular_tags
 
     def load_instgram_trending_tags(self):
-        return (self.load_instagram_tags())
+        return self.load_instagram_tags()
 
     # endregion
 
