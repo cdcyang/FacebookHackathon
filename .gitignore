@@ -1,7 +1,7 @@
 .idea
 .DS_Store
-tags/data.json
-tags/request.json
+data.json
+request.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
