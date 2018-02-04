@@ -163,16 +163,24 @@ def get_tags(filename):
     json_generator = photo_json.PhotoJson(filename)
     json_data = json_generator.generate()
 
+    photo_tags = PhotoTag(json_data, 10)
+    photo_tags_gen = photo_tags.process()
+    hashtags = []
+    for i in range(len(photo_tags_gen)):
+        hashtags.append(photo_tags_gen[i]['hashtag'])
+
+    hashtags_pair = dict()
+    hashtags_pair['hashtag'] = hashtags
+
     caption_cls = caption.Caption(json_data)
     caption_gen = caption_cls.generate()
-
-    photo_tags = PhotoTag(json_data, 10)
-    result = photo_tags.process()
-    #
     caption_pair = dict()
     caption_pair['caption'] = caption_gen
 
+    result = []
     result.append(caption_pair)
+    result.append(hashtags_pair)
+
     result_json = json.dumps(result)
     print(str(dt.datetime.now()) + " The result json is " + str(result_json))
     return result_json
