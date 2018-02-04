@@ -10,6 +10,7 @@ if(isset($_POST['submit'])) {
 
     $url = "www.kieranbrown.me/facebook/uploads/";
     $error = 0;
+    //print_r($FILES['imageToUpload']);
     $upload_dir = getcwd() . "\\uploads\\";
     $fileName = $_FILES['imageToUpload']['name'];
     $uploaded_file = $upload_dir . $fileName;

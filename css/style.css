@@ -25,6 +25,7 @@
 
 .caption-title {
     font-weight: bold;
+    margin-top: 20px;
 }
 
 h1.caption-title {
@@ -61,3 +62,35 @@ h3.caption-title {
     position: absolute;
     z-index: -1;
 }
+
+.row {
+    width: 100%;
+}
+
+.user-img {
+    padding: 0;
+}
+
+.display {
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+    font-family: "Segoe UI Semibold";
+    padding: 0;
+}
+
+.full-break {
+    width: 100%;
+}
+
+h4 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.username {
+    padding-top: 10px;
+}
+
+.break-95 {
+       width: 95%;
+   }
