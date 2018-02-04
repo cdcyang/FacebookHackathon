@@ -12,7 +12,7 @@ class PhotoTag(object):
     def __init__(self, input_json, num_result):
         self.input_json = input_json
         self.num_result = num_result
-        self.result_tags = []
+        self.result_tags = dict()
 
     def process(self):
         print(str(dt.datetime.now()) + " Start processing tagging json.")
@@ -24,7 +24,10 @@ class PhotoTag(object):
         print(str(dt.datetime.now()) + " Completed scrapping trending hashtags")
 
         print(str(dt.datetime.now()) + " Start tag comparison")
-        self.result_tags = self.get_matching_tags(confirm_tags, photo_tags, trending_tags)
+        self.result_tags["hashtag"] = []
+        raw_tags = self.get_matching_tags(confirm_tags, photo_tags, trending_tags)
+        for tag in raw_tags:
+            self.result_tags["hashtag"].append(tag["hashtag"])
         print(str(dt.datetime.now()) + " Completed tag comparison")
 
         print(str(dt.datetime.now()) + " Returning comparison result")
@@ -165,25 +168,13 @@ def get_tags(filename):
 
     photo_tags = PhotoTag(json_data, 10)
     photo_tags_gen = photo_tags.process()
-    hashtags = []
-    for i in range(len(photo_tags_gen)):
-        hashtags.append(photo_tags_gen[i]['hashtag'])
-
-    hashtags_pair = dict()
-    hashtags_pair['hashtag'] = hashtags
 
     caption_cls = caption.Caption(json_data)
     caption_gen = caption_cls.generate()
-    caption_pair = dict()
-    caption_pair['caption'] = caption_gen
 
-    result = []
-    result.append(caption_pair)
-    result.append(hashtags_pair)
-
+    photo_tags_gen["caption"] = caption_gen
+    result = photo_tags_gen
     result_json = json.dumps(result)
     print(str(dt.datetime.now()) + " The result json is " + str(result_json))
     return result_json
 
-
-get_tags('big_ben.jpg')
