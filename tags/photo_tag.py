@@ -27,7 +27,7 @@ class PhotoTag(object):
         self.result_tags["hashtag"] = []
         raw_tags = self.get_matching_tags(confirm_tags, photo_tags, trending_tags)
         for tag in raw_tags:
-            self.result_tags["hashtag"].append(tag["hashtag"])
+            self.result_tags["hashtag"].append("#" + tag["hashtag"])
         print(str(dt.datetime.now()) + " Completed tag comparison")
 
         print(str(dt.datetime.now()) + " Returning comparison result")
