@@ -2,6 +2,7 @@ import datetime as dt
 import json
 import photo_json
 import random
+from tag_scraper import scrape_tags
 
 
 class PhotoTag(object):
@@ -97,6 +98,9 @@ class PhotoTag(object):
                 popular_tags[tag] = i
                 i += 1
         return popular_tags
+
+    def load_instagram_tags_scraper(self):
+        return(self.scrape_tags())
 
     def load_instgram_trending_tags(self):
         return (self.load_instagram_tags_dummy())
