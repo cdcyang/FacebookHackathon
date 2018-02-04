@@ -40,27 +40,27 @@ if(isset($_POST['submit'])) {
                             file: "<?= $pythonDirectory ?>"
                         },
                         success: function (output) {
-                            return output;
+                            var caption;
+                            var hashtags = new Array(10);
+
+                            caption = output['caption'];
+                            for(int i = 0; i < output['hashtag'].length; i++) {
+                                hashtags[i] = output['hashtag'][i];
+                            }
+
+                            var hashtagOutput = "";
+                            hashtags.forEach(function(val) {
+                                hashtagOutput += val;
+                            })
+
+                            console.log("caption":  + caption)
+                            console.log("hashtags: " + hashtagOutput)
                         }
                     });
                 }
 
                 var output = getAjax();
-                var caption;
-                var hashtags = new Array(10);
 
-                caption = output['caption'];
-                for(int i = 0; i < output['hashtag'].length; i++) {
-                    hashtags[i] = output['hashtag'][i];
-                }
-
-                var hashtagOutput = "";
-                hashtags.forEach(function(val) {
-                    hashtagOutput += val;
-                })
-
-                console.log("caption":  + caption)
-                console.log("hashtags: " + hashtagOutput)
             </script>
         </head>
         </html>
