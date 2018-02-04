@@ -1,0 +1,96 @@
+@font-face {
+    font-family: "Segoe UI semibold";
+    src: url("seguisb.ttf");
+}
+
+@font-face {
+    font-family: "Billabong";
+    src: url("Billabong.ttf");
+}
+
+.upload-drop-zone {
+    height: 200px;
+    border-width: 2px;
+    margin-bottom: 20px;
+}
+
+.upload-drop-zone {
+    color: #ccc;
+    border-style: dashed;
+    border-color: #ccc;
+    line-height: 200px;
+    text-align: center;
+}
+
+
+.caption-title {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+h1.caption-title {
+    font-size: 60px;
+    font-family: 'Billabong';
+}
+
+h3.caption-title {
+    font-size: 24px;
+    font-family: "Segoe UI Semibold";
+}
+
+.insta-button {
+    color: #ffffff;
+    background-color: rgb(56,151,240);
+    padding: 3px;
+    border-color: #3897f0;
+    border-style: solid;
+    border-width: 1px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 26px;
+    cursor: pointer;
+}
+
+.file-upload {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.row {
+    width: 100%;
+}
+
+.user-img {
+    padding: 0;
+}
+
+.display {
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+    font-family: "Segoe UI Semibold";
+    padding: 0;
+}
+
+.full-break {
+    width: 100%;
+}
+
+h4 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.username {
+    padding-top: 10px;
+}
+
+.break-95 {
+       width: 95%;
+   }

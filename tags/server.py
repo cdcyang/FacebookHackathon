@@ -11,7 +11,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin(origin='localhost',headers=['Content-Type','Authorization'])
 def main():
     if request.method == "GET":
-        filename = "/mnt/c/xampp/htdocs" + request.args.get('file')
+        filename = '/Applications/XAMPP/xamppfiles/htdocs/' + request.args.get('file')
+        print(filename)
         if filename:
             tags = photo_tag.get_tags(filename)
             print("file path is: ", filename, file=sys.stdout)
