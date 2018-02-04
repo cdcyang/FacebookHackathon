@@ -20,9 +20,6 @@ if(isset($_POST['submit'])) {
         $error = 1;
     }
 
-    if($_FILE["imageToUpload"]["size"] > 2500000) {
-        $error = 1;
-    }
 
     if (move_uploaded_file($_FILES['imageToUpload']['tmp_name'], $uploaded_file) && $error == 0) {
         echo "<script>console.log('File uploaded')</script>";
@@ -40,12 +37,15 @@ if(isset($_POST['submit'])) {
                             file: "<?= $pythonDirectory ?>"
                         },
                         success: function (output) {
+                            output = JSON.parse(output)
+                            console.log(output)
                             var caption;
                             var hashtags = new Array(10);
 
-                            caption = output['caption'];
-                            for(var i = 0; i < output['hashtag'].length; i++) {
-                                hashtags[i] = output['hashtag'][i];
+                            caption = output["caption"];
+                            console.log(caption)
+                            for(var i = 0; i < output["hashtag"].length; i++) {
+                                hashtags[i] = output["hashtag"][i];
                             }
 
                             var hashtagOutput = "";
