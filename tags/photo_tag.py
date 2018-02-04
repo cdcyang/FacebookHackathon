@@ -1,9 +1,11 @@
 import datetime as dt
 import json
-import photo_json
 import random
 from lxml import html
 import requests
+
+import caption
+import photo_json
 
 
 class PhotoTag(object):
@@ -26,7 +28,8 @@ class PhotoTag(object):
         print(str(dt.datetime.now()) + " Completed tag comparison")
 
         print(str(dt.datetime.now()) + " Returning comparison result")
-        return json.dumps(self.result_tags)
+        # return json.dumps(self.result_tags)
+        return self.result_tags
 
     def get_matching_tags(self, confirm_tags, input_tags, trending_tags):
         top_result = self.process_confirmed_tags(confirm_tags)
@@ -159,7 +162,20 @@ class PhotoTag(object):
 def get_tags(filename):
     json_generator = photo_json.PhotoJson(filename)
     json_data = json_generator.generate()
+
+    caption_cls = caption.Caption(json_data)
+    caption_gen = caption_cls.generate()
+
     photo_tags = PhotoTag(json_data, 10)
     result = photo_tags.process()
-    print(str(dt.datetime.now()) + " The result json is " + str(result))
-    return result
+    #
+    caption_pair = dict()
+    caption_pair['caption'] = caption_gen
+
+    result.append(caption_pair)
+    result_json = json.dumps(result)
+    print(str(dt.datetime.now()) + " The result json is " + str(result_json))
+    return result_json
+
+
+get_tags('big_ben.jpg')
